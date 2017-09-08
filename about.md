@@ -14,4 +14,4 @@ My Blog to record some technologies, help us to improve ourselves
 
 ### Contact me
 
-[68344150@qq.com](mailto:68344150@qq.com) Glad that send emails if any idea.
+[68344150@qq.com](mailto:68344150@qq.com) Glad that send emails if any ideas.
