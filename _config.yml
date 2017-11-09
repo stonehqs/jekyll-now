@@ -88,5 +88,5 @@ exclude:
 github_comments:
   repo: stonehqs/gitrepo
   branch: master
-  comment_template: comments.html
+  comment_template: comment.html
   comments_template: comments.html
