@@ -85,8 +85,9 @@ exclude:
   - README.md
   - CNAME
 
-github_comments:
-  repo: stonehqs/stonehqs.github.io
-  branch: master
-  comment_template: comment.html
-  comments_template: comments.html
+# Name of repository, for use with Staticman
+repository: "stonehqs/stonehqs.github.io"
+
+# Staticman comments (see staticman.yml for configuration).
+staticman:
+  branch: "master"
