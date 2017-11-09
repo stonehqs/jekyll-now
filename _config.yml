@@ -92,7 +92,7 @@ exclude:
 #staticman:
 #  branch: "master"
   
- github_comments:
+github_comments:
   repo: stonehqs/stonehqs.github.io
   branch: master
   comment_template: comments.html
