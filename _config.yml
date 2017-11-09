@@ -86,11 +86,11 @@ exclude:
   - CNAME
 
 # Name of repository, for use with Staticman
-repository: "stonehqs/stonehqs.github.io"
+#repository: "stonehqs/stonehqs.github.io"
 
 # Staticman comments (see staticman.yml for configuration).
-staticman:
-  branch: "master"
+#staticman:
+#  branch: "master"
   
  github_comments:
   repo: stonehqs/stonehqs.github.io
