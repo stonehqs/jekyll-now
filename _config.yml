@@ -85,7 +85,7 @@ exclude:
   - CNAME
 
 # Name of repository, for use with Staticman
-repository: "stonehqs/stonehqs.github.io"
+repository: "stonehqs/staticman"
 
 # Staticman comments (see staticman.yml for configuration).
 staticman:
