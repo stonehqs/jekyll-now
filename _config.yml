@@ -86,7 +86,7 @@ exclude:
   - CNAME
 
 github_comments:
-  repo: stonehqs/gitrepo
+  repo: stonehqs/stonehqs.github.io
   branch: master
   comment_template: comment.html
   comments_template: comments.html
