@@ -84,3 +84,9 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+github_comments:
+  repo: stonehqs/gitrepo
+  branch: master
+  comment_template: comments.html
+  comments_template: comments.html
