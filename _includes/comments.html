@@ -1,57 +1,50 @@
-<!-- Comment form -->
-<h3>Post a comment:</h3>
-<form method="POST" action="https://api.staticman.net/v2/entry/{{ site.repository }}/{{ site.staticman.branch }}/comments">
-  <input name="options[redirect]" type="hidden" value="https://stonehqs.github.io">
-  <input name="options[slug]" type="hidden" value="{{ page.slug }}">
-  <div>
-    <legend>Name</legend>
-    <input name="fields[name]" type="text">
-  </div>
-  <div>
-    <legend>E-mail (optional)</legend>
-    <input name="fields[email]" type="email">
-  </div>
-  <div>
-    <legend>Message (<a href="https://kramdown.gettalong.org/syntax.html">kramdown</a> markup allowed)</legend>
-    <textarea style="width:100%" name="fields[message]" rows="12"></textarea>
-  </div>
-  
-  <div>
-    <legend><em>Comments will appear after moderation.</em></legend>
-    <button type="submit">Submit Comment</button>
-  </div>
-</form>
-
-<p>
-<hr>
-<p>
-
-<!-- Static comments -->
-<!-- Partly based on Made Mistakes' comments.html file: -->
-<!-- https://github.com/mmistakes/minimal-mistakes/blob/master/_includes/comments.html -->
-<!-- Also partly based on Eduardo Boucas' reviews.html file -->
-<!-- https://github.com/eduardoboucas/popcorn/blob/gh-pages/_includes/reviews.html -->
-
-{% if site.data.comments[page.slug] %}
-
-  <h3>
-    {% if site.data.comments[page.slug].size > 1 %}
-      {{ site.data.comments[page.slug] | size }}
+<article id="comment{% unless include.r %}{{ index | prepend: '-' }}{% else %}{{ include.index | prepend: '-' }}{% endunless %}" class="js-comment comment {% if include.name == site.author.name %}admin{% endif %} {% unless include.replying_to == 0 %}child{% endunless %}">
+  <div class="comment__avatar">
+    {% if include.avatar %}
+      <img src="{{ include.avatar }}" alt="{{ include.name | escape }}">
+    {% elsif include.email %}
+      <img src="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=60" srcset="https://www.gravatar.com/avatar/{{ include.email }}?d=mm&s=120 2x" alt="{{ include.name | escape }}">
+    {% else %}
+      <img src="/assets/images/avatar-60.png" srcset="/assets/images/avatar-120.png 2x" alt="{{ include.name | escape }}">
     {% endif %}
-    Comments:
+  </div>
+  <h3 class="comment__author-name">
+    {% unless include.url == blank %}
+      <a rel="external nofollow" href="{{ include.url }}">
+        {% if include.name == site.author.name %}<svg class="icon" width="20px" height="20px"><use xlink:href="#icon-mistake"></use></svg> {% endif %}{{ include.name }}
+      </a>
+    {% else %}
+      {% if include.name == site.author.name %}<svg class="icon" width="20px" height="20px"><use xlink:href="#icon-mistake"></use></svg> {% endif %}{{ include.name }}
+    {% endunless %}
   </h3>
+  <div class="comment__timestamp">
+    {% if include.date %}
+      {% if include.index %}<a href="#comment{% if r %}{{ index | prepend: '-' }}{% else %}{{ include.index | prepend: '-' }}{% endif %}" title="Permalink to this comment">{% endif %}
+      <time datetime="{{ include.date | date_to_xmlschema }}">{{ include.date | date: '%B %d, %Y' }}</time>
+      {% if include.index %}</a>{% endif %}
+    {% endif %}
+  </div>
+  <div class="comment__content">
+    {{ include.message | markdownify }}
+  </div>
+  {% unless include.replying_to != 0 or page.comments_locked == true %}
+    <div class="comment__reply">
+      <a rel="nofollow" class="btn" href="#comment-{{ include.index }}" onclick="return addComment.moveForm('comment-{{ include.index }}', '{{ include.index }}', 'respond', '{{ page.slug }}')">Reply to {{ include.name }}</a>
+    </div>
+  {% endunless %}
+</article>
 
-  <p>
-  <hr>
-
-  {% assign comments = site.data.comments[page.slug] | sort %}
-
-  {% for comment in comments %}
-    <br>
-    <legend><strong>{{ comment[1].name }}</strong><legend>
-    <em>{{ comment[1].date | date: "%B %d, %Y" }}</em>
-    <p>{{ comment[1].message | markdownify }}
-    <hr>
-  {% endfor %}
-  <p>
-{% endif %}
+{% capture i %}{{ include.index }}{% endcapture %}
+{% assign replies = site.data.comments[page.slug] | where_exp: 'item', 'item.replying_to == i' %}
+{% for reply in replies %}
+  {% assign index       = forloop.index | prepend: '-' | prepend: include.index %}
+  {% assign r           = reply.replying_to %}
+  {% assign replying_to = r | to_integer %}
+  {% assign avatar      = reply.avatar %}
+  {% assign email       = reply.email %}
+  {% assign name        = reply.name %}
+  {% assign url         = reply.url %}
+  {% assign date        = reply.date %}
+  {% assign message     = reply.message %}
+  {% include comment.html index=index replying_to=replying_to avatar=avatar email=email name=name url=url date=date message=message %}
+{% endfor %}
